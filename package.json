@@ -1,0 +1,64 @@
+{
+  "name": "api-toaster-esm-server",
+  "version": "0.1.0",
+  "description": "ApiToasterApiServer",
+  "productName": "ApiToasterApiServer",
+  "author": "https://github.com/ApiToaster",
+  "license": "Apache-2.0",
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node build/main.js",
+    "start:dev": "concurrently 'npm run build:watch' 'cross-env NODE_ENV=dev nodemon build/main.js'",
+    "build": "tsc -p tsconfig.json",
+    "build:watch": "tsc -w -p tsconfig.json",
+    "lint": "cross-env NODE_ENV=development eslint -c eslint.config.mjs . --fix",
+    "listErrors": "node_modules/.bin/tsc --skipLibCheck",
+    "lintStaged": "npx lint-staged"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "cross-env NODE_ENV=development eslint --cache"
+    ],
+    "*.json,.{eslintrc,prettierrc}": [
+      "prettier --ignore-path .eslintignore --parser json --write"
+    ]
+  },
+  "dependencies": {
+    "body-parser": "1.20.2",
+    "chalk": "5.3.0",
+    "cookie-parser": "1.4.6",
+    "cors": "2.8.5",
+    "express": "4.19.2"
+  },
+  "devDependencies": {
+    "@eslint/compat": "^1.1.1",
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.9.0",
+    "@types/cookie-parser": "1.4.7",
+    "@types/cors": "2.8.17",
+    "@types/express": "4.17.21",
+    "@types/node": "22.2.0",
+    "@typescript-eslint/eslint-plugin": "8.1.0",
+    "@typescript-eslint/parser": "8.1.0",
+    "concurrently": "8.2.2",
+    "cross-env": "7.0.3",
+    "eslint": "9.9.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-check-file": "2.8.0",
+    "eslint-plugin-import": "2.29.1",
+    "eslint-plugin-jest": "28.8.0",
+    "eslint-plugin-jsdoc": "^50.0.0",
+    "eslint-plugin-prettier": "5.2.1",
+    "eslint-plugin-sort-class-members": "1.20.0",
+    "nodemon": "3.1.4",
+    "prettier": "3.3.3",
+    "tslib": "^2.6.3",
+    "typescript": "5.5.4"
+  },
+  "overrides": {
+    "eslint-plugin-import": {
+      "eslint": "^9"
+    }
+  }
+}
