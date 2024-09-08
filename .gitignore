@@ -63,3 +63,6 @@ config/testConfig.json
 
 # K8s
 .livenessProbe
+
+# Typescript cache
+tsconfig.tsbuildinfo
