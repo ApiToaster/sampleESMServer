@@ -1,17 +1,13 @@
-import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import type { Express } from 'express';
 import express from 'express';
 import * as errors from '../errors/index.js';
 import Log from '../tools/logger/index.js';
 import type * as types from '../types/index.js';
-import type { Express } from 'express';
 
 export default class Middleware {
   generateMiddleware(app: Express): void {
-    app.use(express.json({ limit: '500kb' }));
-    app.use(express.urlencoded({ extended: true }));
-    app.use(bodyParser.json());
     app.use(cookieParser());
     app.use(
       cors({

@@ -1,3 +1,4 @@
+import bodyParser from 'body-parser';
 import express from 'express';
 import Middleware from './middleware.js';
 import Log from '../tools/logger/index.js';
@@ -27,7 +28,9 @@ export default class Router {
 
   init(): void {
     this.initMiddleware();
-    this.initRouter();
+    this.initRouterJSON();
+    this.initRouterURL();
+    this.initRouterNotFound();
     this.initServer();
     this.initErrHandler();
   }
@@ -60,16 +63,27 @@ export default class Router {
   /**
    * Init basic routes.
    */
-  private initRouter(): void {
-    this.app.get('/', (_req, res) => {
+  private initRouterJSON(): void {
+    this.app.use(express.json({ limit: '500kb' }));
+    this.app.use(bodyParser.json());
+    this.app.get('/json', (_req, res) => {
       res.status(200).send();
     });
+  }
 
+  private initRouterURL(): void {
+    this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(bodyParser.urlencoded());
+    this.app.get('/url', (_req, res) => {
+      res.status(200).send();
+    });
+  }
+
+  private initRouterNotFound(): void {
     this.app.all('*', (_req, res) => {
       res.status(404).send();
     });
   }
-
   /**
    * Initialize http server.
    */
