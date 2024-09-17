@@ -1,8 +1,8 @@
 import bodyParser from 'body-parser';
 import express from 'express';
-import http from 'http';
-import Log from '../tools/logger/index.js';
 import Middleware from './middleware.js';
+import Log from '../tools/logger/index.js';
+import http from 'http';
 
 export default class Router {
   private readonly _middleware: Middleware;
@@ -66,21 +66,21 @@ export default class Router {
    */
   private initRouterJSON(): void {
     this.app.post('/json', express.json({ limit: '500kb' }), bodyParser.json(), (_req, res) => {
-      console.log(_req.body);
+      Log.log('router', 'got new req on /json', _req.body);
       res.status(200).send();
     });
   }
 
   private initRouterURL(): void {
     this.app.post('/url', express.urlencoded({ extended: true }), bodyParser.urlencoded(), (_req, res) => {
-      console.log(_req.body);
+      Log.log('router', 'got new req on /url', _req.body);
       res.status(200).send();
     });
   }
 
   private initRouterString(): void {
     this.app.post('/string', bodyParser.text(), (_req, res) => {
-      console.log(_req.body);
+      Log.log('router', 'got new req on /string', _req.body);
       res.status(200).send();
     });
   }
@@ -94,7 +94,7 @@ export default class Router {
    * Initialize http server.
    */
   private initServer(): void {
-    if (process.env.NODE_ENV === 'test') return;
+    // if (process.env.NODE_ENV === 'test') return;
     this._server = http.createServer(this.app);
 
     this.server.listen('5003', () => {

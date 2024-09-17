@@ -1,10 +1,11 @@
+import apiToaster from 'api-toaster';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import type { Express } from 'express';
-import express from 'express';
 import * as errors from '../errors/index.js';
 import Log from '../tools/logger/index.js';
 import type * as types from '../types/index.js';
+import type express from 'express';
+import type { Express } from 'express';
 
 export default class Middleware {
   generateMiddleware(app: Express): void {
@@ -22,7 +23,9 @@ export default class Middleware {
       res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
       next();
     });
-
+    app.use((req, res, next) => {
+      apiToaster(req, res, next);
+    });
     app.use((req, _res, next) => {
       try {
         const logBody: Record<string, string | Record<string, string>> = {

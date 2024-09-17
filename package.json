@@ -8,7 +8,7 @@
   "private": false,
   "type": "module",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node build/main.js",
+    "start": "cross-env NODE_ENV=test node build/main.js",
     "start:dev": "concurrently 'npm run build:watch' 'cross-env NODE_ENV=dev nodemon build/main.js'",
     "build": "tsc -p tsconfig.json",
     "build:watch": "tsc -w -p tsconfig.json",
@@ -25,6 +25,7 @@
     ]
   },
   "dependencies": {
+    "api-toaster": "file:../ApiToaster",
     "body-parser": "1.20.2",
     "chalk": "5.3.0",
     "cookie-parser": "1.4.6",
