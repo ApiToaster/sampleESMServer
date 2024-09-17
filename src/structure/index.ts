@@ -30,6 +30,7 @@ export default class Router {
     this.initMiddleware();
     this.initRouterJSON();
     this.initRouterURL();
+    this.initRouterString();
     this.initRouterNotFound();
     this.initServer();
     this.initErrHandler();
@@ -72,6 +73,13 @@ export default class Router {
 
   private initRouterURL(): void {
     this.app.post('/url', express.urlencoded({ extended: true }), bodyParser.urlencoded(), (_req, res) => {
+      console.log(_req.body);
+      res.status(200).send();
+    });
+  }
+
+  private initRouterString(): void {
+    this.app.post('/string', bodyParser.text(), (_req, res) => {
       console.log(_req.body);
       res.status(200).send();
     });
