@@ -66,3 +66,7 @@ config/testConfig.json
 
 # Typescript cache
 tsconfig.tsbuildinfo
+
+Toaster
+tslib
+toaster.json
