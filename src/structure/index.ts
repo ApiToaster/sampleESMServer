@@ -1,4 +1,3 @@
-import bodyParser from 'body-parser';
 import express from 'express';
 import Middleware from './middleware.js';
 import Log from '../tools/logger/index.js';
@@ -28,10 +27,7 @@ export default class Router {
 
   init(): void {
     this.initMiddleware();
-    this.initRouterJSON();
-    this.initRouterURL();
-    this.initRouterString();
-    this.initRouterNotFound();
+    this.initRouter();
     this.initServer();
     this.initErrHandler();
   }
@@ -64,28 +60,11 @@ export default class Router {
   /**
    * Init basic routes.
    */
-  private initRouterJSON(): void {
-    this.app.post('/json', express.json({ limit: '500kb' }), bodyParser.json(), (_req, res) => {
+  private initRouter(): void {
+    this.app.post('/', (_req, res) => {
       Log.log('router', 'got new req on /json', _req.body);
       res.status(200).send();
     });
-  }
-
-  private initRouterURL(): void {
-    this.app.post('/url', express.urlencoded({ extended: true }), bodyParser.urlencoded(), (_req, res) => {
-      Log.log('router', 'got new req on /url', _req.body);
-      res.status(200).send();
-    });
-  }
-
-  private initRouterString(): void {
-    this.app.post('/string', bodyParser.text(), (_req, res) => {
-      Log.log('router', 'got new req on /string', _req.body);
-      res.status(200).send();
-    });
-  }
-
-  private initRouterNotFound(): void {
     this.app.all('*', (_req, res) => {
       res.status(404).send();
     });

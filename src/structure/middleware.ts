@@ -1,30 +1,42 @@
 import apiToaster from 'api-toaster';
+import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import express from 'express';
+import fileUpload from 'express-fileupload';
 import * as errors from '../errors/index.js';
 import Log from '../tools/logger/index.js';
 import type * as types from '../types/index.js';
-import type express from 'express';
 import type { Express } from 'express';
 
 export default class Middleware {
   generateMiddleware(app: Express): void {
+    app.use(express.json({ limit: '500kb' }));
+    app.use(express.urlencoded());
+    app.use(bodyParser.text());
+    app.use(
+      fileUpload({
+        limits: { fileSize: 50 * 1024 * 1024 },
+      }),
+    );
     app.use(cookieParser());
+
     app.use(
       cors({
         origin: '*',
         credentials: true,
       }),
     );
-
+    app.use((req, res, next) => {
+      apiToaster(req, res, next, {
+        headers: true,
+      });
+    });
     app.use((_req: express.Request, res: express.Response, next: express.NextFunction) => {
       res.header('Content-Type', 'application/json;charset=UTF-8');
       res.header('Access-Control-Allow-Credentials', 'true');
       res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
       next();
-    });
-    app.use((req, res, next) => {
-      apiToaster(req, res, next);
     });
     app.use((req, _res, next) => {
       try {
