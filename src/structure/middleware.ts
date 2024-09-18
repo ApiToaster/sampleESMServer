@@ -12,7 +12,7 @@ import type { Express } from 'express';
 export default class Middleware {
   generateMiddleware(app: Express): void {
     app.use(express.json({ limit: '500kb' }));
-    app.use(express.urlencoded());
+    app.use(express.urlencoded({ extended: true }));
     app.use(bodyParser.text());
     app.use(
       fileUpload({
