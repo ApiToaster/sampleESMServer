@@ -61,20 +61,19 @@ export default class Router {
    * Init basic routes.
    */
   private initRouter(): void {
-    this.app.get('/', (_req, res) => {
+    this.app.post('/', (_req, res) => {
+      Log.log('router', 'got new req on /json', _req.body);
       res.status(200).send();
     });
-
     this.app.all('*', (_req, res) => {
       res.status(404).send();
     });
   }
-
   /**
    * Initialize http server.
    */
   private initServer(): void {
-    if (process.env.NODE_ENV === 'test') return;
+    // if (process.env.NODE_ENV === 'test') return;
     this._server = http.createServer(this.app);
 
     this.server.listen('5003', () => {
