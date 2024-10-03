@@ -62,7 +62,9 @@ export default class Router {
    */
   private initRouter(): void {
     this.app.post('/', (_req, res) => {
-      Log.log('router', 'got new req on /json', _req.body);
+      console.log(_req.body);
+
+      Log.log('router', _req.body);
       res.status(200).send();
     });
     this.app.all('*', (_req, res) => {
